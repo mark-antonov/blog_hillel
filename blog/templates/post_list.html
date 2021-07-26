@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h3>Posts:</h3>
+<ul>
+{% for post in page_obj %}
+    <li><h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4></li>
+    <h5>Short description: {{ post.short_description }} </h5>
+    <h5>Author: <a href="{% url 'user_detail' post.author.id %}" >{{ post.author }}</a></h5>
+
+{% empty %}
+    <li>No posts yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

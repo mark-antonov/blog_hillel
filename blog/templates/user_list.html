@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h3>Users:</h3>
+<ul>
+{% for user in page_obj %}
+    <h4>User: <a href="{% url 'user_detail' user.id %}">{{ user.username }}</a> </h4>
+{% empty %}
+    <li>No users yet.</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

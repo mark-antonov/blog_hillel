@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h3>Title: {{ post.title }} {{ student.last_name }}</h3></li>
+
+<h5>Description: {{ post.full_description }}</h5>
+<h5>Author: <a href="{% url 'user_detail' post.author.id %}" >{{ post.author }}</a></h5>
+<hr>
+<h3>Comments</h3>
+{% for comment in page_obj %}
+<h6>User name:{{ comment.username }}</h6>
+<h6>Comment: {{ comment.text }}</h6>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<hr>
+<form method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-dark">Add comment</button>
+  </div>
+</form>
+
+{% endblock %}

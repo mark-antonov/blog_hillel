@@ -1,0 +1,40 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h2>User info: </h2>
+<h5>Username: {{ obj.username }}</h5>
+{% if obj.first_name and obj.last_name %}
+<h5>First name: {{ obj.first_name }}</h5>
+<h5>Last name: {{ obj.last_name }}</h5>
+{% endif %}
+<h5>Email: {{ obj.email }}</h5>
+<hr>
+<h2>User's posts:</h2>
+<ul>
+{% for post in page_obj %}
+    <li><h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4></li>
+    <h5>Short description: {{ post.short_description }} </h5>
+{% empty %}
+    <li>No posts yet.</li>
+{% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

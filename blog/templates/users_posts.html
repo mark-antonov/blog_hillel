@@ -1,0 +1,65 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Posted!</h1>
+{% for post in page_obj_posted %}
+  <li><h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4></li>
+  <h5>Short description: {{ post.short_description }} </h5>
+<div>
+ <a href='{% url "post_update" post.id %}'>Update</a>
+ <a href='{% url "post_delete" post.id %}'>Delete</a>
+</div>
+{% empty %}
+  <h3>No posted posts yet!</h3>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj_posted.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj_posted.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj_posted.number }} of {{ page_obj_posted.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj_posted.has_next %}
+            <a href="?page={{ page_obj_posted.next_page_number }}">next</a>
+            <a href="?page={{ page_obj_posted.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<hr>
+<h1>Unposted!</h1>
+{% for post in page_obj_unposted %}
+  <li><h4>Title: {{ post.title }} </h4></li>
+  <h5>Short description: {{ post.short_description }} </h5>
+<div>
+ <a href='{% url "post_update" post.id %}'>Update</a>
+ <a href='{% url "post_delete" post.id %}'>Delete</a>
+</div>
+{% empty %}
+  <h3>No unposted posts yet!</h3>
+{% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj_unposted.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj_unposted.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj_unposted.number }} of {{ page_obj_unposted.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj_unposted.has_next %}
+            <a href="?page={{ page_obj_unposted.next_page_number }}">next</a>
+            <a href="?page={{ page_obj_unposted.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}
