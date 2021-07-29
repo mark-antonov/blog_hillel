@@ -65,7 +65,7 @@ def feedback_form(request):
 
 class PostCreate(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'short_description', 'full_description', 'posted']
+    fields = ['title', 'short_description', 'image', 'full_description', 'posted']
     template_name = 'post_create.html'
     success_url = reverse_lazy('post_list')
 
@@ -73,6 +73,11 @@ class PostCreate(LoginRequiredMixin, CreateView):
         post = form.save(commit=False)
         post.author = self.request.user
         post.save()
+        # if form.is_valid():
+        #     subject = 'New post'
+        #     message = 'New post created! Check it on admin panel.'
+        #     from_email = 'ad@example.com'
+        #     send_mail(subject, message, from_email, ['admin@example.com'])
         self.object = post
         return HttpResponseRedirect(self.get_success_url())
 
@@ -96,13 +101,11 @@ def post_detail(request, pk):
     comments = Comment.objects.all().filter(post=post).filter(moderated=True)
     # comments = post.comment_set.filter(moderated=True)
     paginator = Paginator(comments, 2)
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     if request.method == 'POST':
-
         form = CommentForm(request.POST)
-
         if form.is_valid():
             comm = Comment()
             comm.username = form.cleaned_data['username']
@@ -115,30 +118,28 @@ def post_detail(request, pk):
         initial = {'username': request.user.username}
         form = CommentForm(initial=initial)
 
-    context = {
-        'form': form,
-        'post': post,
-        'page_obj': page_obj,
-    }
+    context = {'form': form, 'post': post, 'page_obj': page_obj}
 
     return render(request, 'post_detail.html', context)
 
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Post
     template_name = 'post_update.html'
-    fields = ['title', 'short_description', 'full_description', 'posted']
+    fields = ['title', 'short_description', 'image', 'full_description', 'posted']
     success_url = reverse_lazy('post_list')
+    success_message = 'Post updated'
 
     def get_success_url(self):
         post_id = self.kwargs['pk']
         return reverse_lazy('post_update', kwargs={'pk': post_id})
 
 
-class PostDelete(LoginRequiredMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('post_list')
     template_name = 'post_delete.html'
+    success_message = 'Post deleted'
 
 
 @cache_page(10)

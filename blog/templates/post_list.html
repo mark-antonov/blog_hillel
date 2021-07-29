@@ -6,6 +6,9 @@
 <ul>
 {% for post in page_obj %}
     <li><h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4></li>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" width="50%" alt="...">
+    {% else %}{% endif %}
     <h5>Short description: {{ post.short_description }} </h5>
     <h5>Author: <a href="{% url 'user_detail' post.author.id %}" >{{ post.author }}</a></h5>
 

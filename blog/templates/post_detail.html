@@ -2,8 +2,10 @@
 
 {% block content %}
 
-<h3>Title: {{ post.title }} {{ student.last_name }}</h3></li>
-
+<h3>Title: {{ post.title }}</h3>
+{% if post.image %}
+    <img src="{{ post.image.url }}" width="30%" alt="...">
+{% else %}{% endif %}
 <h5>Description: {{ post.full_description }}</h5>
 <h5>Author: <a href="{% url 'user_detail' post.author.id %}" >{{ post.author }}</a></h5>
 <hr>

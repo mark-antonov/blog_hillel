@@ -1,9 +1,12 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<h1>Posted!</h1>
+<h1>Posted</h1>
 {% for post in page_obj_posted %}
-  <li><h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4></li>
+  <h4>Title: <a href="{% url 'post_detail' post.id %}">{{ post.title }}</a> </h4>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" width="30%" alt="...">
+    {% else %}{% endif %}
   <h5>Short description: {{ post.short_description }} </h5>
 <div>
  <a href='{% url "post_update" post.id %}'>Update</a>
@@ -32,9 +35,9 @@
 </div>
 
 <hr>
-<h1>Unposted!</h1>
+<h1>Unposted</h1>
 {% for post in page_obj_unposted %}
-  <li><h4>Title: {{ post.title }} </h4></li>
+  <h4>Title: {{ post.title }} </h4>
   <h5>Short description: {{ post.short_description }} </h5>
 <div>
  <a href='{% url "post_update" post.id %}'>Update</a>

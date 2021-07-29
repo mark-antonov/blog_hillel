@@ -48,3 +48,8 @@ figure {
 figure:first-child {
     margin-left: 0; /* Убираем отступ для первого элемента */
 }
+
+.center-img {
+  display: block;
+  margin: 0 auto;
+}

@@ -8,7 +8,7 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     short_description = models.CharField(max_length=250)
     full_description = models.TextField(blank=True)
-    # image = models.ImageField()
+    image = models.ImageField(upload_to='images/%Y/%m/%d/', blank=True, null=True) # noqa DJ01
     # image = models.URLField(max_length=400)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)

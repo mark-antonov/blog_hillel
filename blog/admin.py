@@ -18,7 +18,8 @@ class CommentInline(admin.TabularInline):
 class PostAdmin(admin.ModelAdmin):
     list_display = ['author', 'title', 'short_description', 'created_date', 'published_date',
                     'posted']
-    fields = ['author', 'title', 'short_description', 'full_description', ('created_date', 'published_date'), 'posted']
+    fields = ['author', 'title', 'short_description', 'image', 'full_description',
+              ('created_date', 'published_date'), 'posted']
     list_filter = ['author', 'posted']
     search_fields = ['title']
     date_hierarchy = "published_date"
